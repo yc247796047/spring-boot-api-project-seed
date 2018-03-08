@@ -10,20 +10,21 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.rmi.ServerException;
 import java.util.List;
 
 /**
 * Created by CodeGenerator on 2018/01/26.
 */
 
-@Controller
+@RestController
 @RequestMapping("/hello")
 public class HelloController {
     @Resource
     private UserService userService;
 
     @PostMapping("/add")
-    public Result add(User user) {
+    public Result add(User user)  {
         userService.save(user);
         return ResultGenerator.genSuccessResult();
     }
@@ -65,6 +66,12 @@ public class HelloController {
     @RequestMapping(value = { "/hello" }, method = RequestMethod.GET)
     public String hello() {
 
-        return "/hello";
+        return "hello";
+    }
+
+    @RequestMapping(value = { "/welcome" }, method = RequestMethod.GET)
+    public String welcome() {
+
+        return "/welcome";
     }
 }

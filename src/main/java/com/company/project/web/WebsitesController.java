@@ -3,11 +3,12 @@ import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.model.Websites;
 import com.company.project.service.WebsitesService;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.rmi.ServerException;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class WebsitesController {
     private WebsitesService websitesService;
 
     @PostMapping("/add")
-    public Result add(Websites websites) {
+    public Result add(Websites websites)  {
         websitesService.save(websites);
         return ResultGenerator.genSuccessResult();
     }
@@ -43,13 +44,25 @@ public class WebsitesController {
         return ResultGenerator.genSuccessResult(websites);
     }
 
-    @PostMapping("/list")
+//    @PostMapping("/list")
+//    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
+//        PageHelper.startPage(page, size);
+//        List<Websites> list = websitesService.findAll();
+//        PageInfo pageInfo = new PageInfo(list);
+//        return ResultGenerator.genSuccessResult(pageInfo);
+//    }
+
+    @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
-        PageHelper.startPage(page, size);
+
         List<Websites> list = websitesService.findAll();
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
+    @RequestMapping(value = "/say", method = RequestMethod.GET)
+    public String say(@RequestParam(value = "id",required = false,defaultValue = "0") Integer id){
+        return "id:"+id;
+    }
 
 }
